@@ -1,0 +1,544 @@
+!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>netsliks.huzafaasf</title>
+</head>
+<body>
+    <!-- Aapka purana code yahan hai -->
+    <h1>movies details</h1>
+    <p></p>
+</body>
+</html><!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>CineCyber - 100 Ultimate Movies & Series Database</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #121212;
+            color: #ffffff;
+        }
+
+        .imdb-header {
+            background-color: #121212;
+            border-bottom: 1px solid #272727;
+            padding: 10px 30px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+
+        .imdb-logo {
+            background-color: #f5c518;
+            color: #000000;
+            font-weight: bold;
+            font-size: 1.5rem;
+            padding: 4px 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            display: flex;
+            flex: 1;
+            max-width: 600px;
+            margin: 0 30px;
+            background: #ffffff;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .search-bar input {
+            width: 100%;
+            padding: 10px 15px;
+            border: none;
+            outline: none;
+            font-size: 1rem;
+            color: #000;
+        }
+
+        .search-bar button {
+            background: transparent;
+            border: none;
+            padding: 0 15px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #555;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 15px;
+            align-items: center;
+        }
+
+        .nav-links a {
+            color: #ffffff;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: bold;
+            padding: 6px 10px;
+            border-radius: 4px;
+            transition: background 0.2s;
+        }
+
+        .nav-links a:hover {
+            background: #1f1f1f;
+        }
+
+        .main-container {
+            max-width: 1300px;
+            margin: 30px auto;
+            padding: 0 20px;
+        }
+
+        .section-title {
+            font-size: 1.5rem;
+            border-left: 4px solid #f5c518;
+            padding-left: 12px;
+            margin-bottom: 20px;
+            color: #f5c518;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .view-all {
+            font-size: 0.9rem;
+            color: #5799ef;
+            cursor: pointer;
+            text-decoration: none;
+        }
+
+        .view-all:hover {
+            text-decoration: underline;
+        }
+
+        .movie-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+            gap: 20px;
+            margin-bottom: 40px;
+        }
+
+        .movie-card {
+            background-color: #1a1a1a;
+            border-radius: 8px;
+            overflow: hidden;
+            border: 1px solid #272727;
+            transition: transform 0.2s, box-shadow 0.2s;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .movie-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.5);
+            border-color: #444;
+        }
+
+        .poster-box {
+            height: 300px;
+            background-color: #262626;
+            overflow: hidden;
+            position: relative;
+        }
+
+        .poster-box img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.3s;
+        }
+
+        .movie-card:hover .poster-box img {
+            transform: scale(1.05);
+        }
+
+        .movie-info {
+            padding: 12px;
+            display: flex;
+            flex-direction: column;
+            flex-grow: 1;
+        }
+
+        .rating-row {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.85rem;
+            margin-bottom: 6px;
+        }
+
+        .star {
+            color: #f5c518;
+        }
+
+        .movie-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: #ffffff;
+            margin-bottom: 8px;
+            text-decoration: none;
+            display: -webkit-box;
+            -webkit-line-clamp: 1;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .movie-title:hover {
+            color: #5799ef;
+            text-decoration: underline;
+        }
+
+        .card-btn {
+            margin-top: auto;
+            background-color: #2c2c2c;
+            color: #5799ef;
+            border: none;
+            padding: 7px;
+            border-radius: 4px;
+            font-weight: bold;
+            font-size: 0.85rem;
+            cursor: pointer;
+            text-align: center;
+            transition: background 0.2s;
+        }
+
+        .card-btn:hover {
+            background-color: #383838;
+        }
+
+        .modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.85);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .modal-content {
+            background: #1a1a1a;
+            max-width: 800px;
+            width: 100%;
+            border-radius: 8px;
+            border: 1px solid #333;
+            overflow: hidden;
+            max-height: 90vh;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            background: #222;
+            padding: 15px 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #333;
+        }
+
+        .modal-header h2 {
+            color: #f5c518;
+            font-size: 1.4rem;
+        }
+
+        .close-btn {
+            background: none;
+            border: none;
+            color: #fff;
+            font-size: 1.5rem;
+            cursor: pointer;
+        }
+
+        .modal-body {
+            padding: 25px;
+            overflow-y: auto;
+            line-height: 1.6;
+        }
+
+        .modal-body p {
+            margin-bottom: 12px;
+            color: #ccc;
+        }
+
+        .modal-body strong {
+            color: #fff;
+        }
+
+        footer {
+            background-color: #121212;
+            border-top: 1px solid #272727;
+            text-align: center;
+            padding: 30px;
+            color: #777;
+            font-size: 0.9rem;
+            margin-top: 50px;
+        }
+
+        @media(max-width: 768px) {
+            .imdb-header {
+                padding: 10px 15px;
+                flex-wrap: wrap;
+                gap: 10px;
+            }
+            .search-bar {
+                order: 3;
+                margin: 0;
+                max-width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <header class="imdb-header">
+        <div class="imdb-logo" onclick="filterMovies('all')">IMDb</div>
+        <div class="search-bar">
+            <input type="text" id="searchInput" placeholder="Search 100 Movies & Series..." onkeyup="searchMovies()">
+            <button onclick="searchMovies()">??</button>
+        </div>
+        <nav class="nav-links">
+            <a href="#" onclick="filterMovies('all')">Home</a>
+            <a href="#" onclick="filterMovies('cyber')">Cyber & Sci-Fi</a>
+            <a href="#" onclick="filterMovies('top')">Top Rated</a>
+        </nav>
+    </header>
+
+    <div class="main-container">
+        <div class="section-title">
+            <span id="sectionHeading">All 100 Curated Masterpieces</span>
+            <a href="#" class="view-all" onclick="filterMovies('all')">Reset Filter</a>
+        </div>
+
+        <div class="movie-grid" id="movieGrid">
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="movieModal">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h2 id="modalTitle">Movie Title</h2>
+                <button class="close-btn" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body" id="modalBody">
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2026 CineCyber Database. Developed by Huzaifa. 100 Unique Titles with Official Posters.</p>
+    </footer>
+
+    <script>
+        const moviesData = [
+            { id: 1, title: "Mr. Robot", category: "cyber", rating: "8.5", genre: "Psychological Cyber-Thriller", creator: "Sam Esmail", summary: "Follows a cybersecurity engineer and hacker who joins an anarchist group.", poster: "https://m.media-amazon.com/images/M/MV5BMjA3MjYxNzQ2OV5BMl5BanBnXkFtZTgwNTI0MzY0NTE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 2, title: "The Matrix", category: "cyber", rating: "8.7", genre: "Sci-Fi Action", creator: "The Wachowskis", summary: "A hacker discovers the true nature of his reality and his role in the war against its controllers.", poster: "https://m.media-amazon.com/images/M/MV5BNzQzOTk3OTAtNDQ0Zi00ZTVkLWI0MTEtMDllZjNkYzNjNTc4L2ltYWdlXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 3, title: "Interstellar", category: "top", rating: "8.7", genre: "Sci-Fi Drama", creator: "Christopher Nolan", summary: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", poster: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 4, title: "Inception", category: "top", rating: "8.8", genre: "Sci-Fi Thriller", creator: "Christopher Nolan", summary: "A thief who steals corporate secrets through the use of dream-sharing technology.", poster: "https://m.media-amazon.com/images/M/MV5BMjAxMzY3NjcxNF5BMl5BanBnXkFtZTcwNTI5OTM0Mw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 5, title: "The Social Network", category: "top", rating: "7.8", genre: "Biography Drama", creator: "David Fincher", summary: "The story of the founding of Facebook and the lawsuits that followed.", poster: "https://m.media-amazon.com/images/M/MV5BOGUyZDUxZjEtMmIzMC00MzlmLTg4MGItZWJmMzBhZjE0Mjc1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 6, title: "Who Am I", category: "cyber", rating: "7.5", genre: "German Cyber-Thriller", creator: "Baran bo Odar", summary: "A German computer geek joins a subversive hacker group aiming for international fame.", poster: "https://m.media-amazon.com/images/M/MV5BOTU5YjdhM2UtMDllOS00MmQxLWE3NWEtNDgwOGYyMjVlMWY4XkEyXkFqcGdeQXVyMjQwMDg0Ng@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 7, title: "Breaking Bad", category: "top", rating: "9.5", genre: "Crime Drama", creator: "Vince Gilligan", summary: "A chemistry teacher diagnosed with cancer turns to manufacturing and selling methamphetamine.", poster: "https://m.media-amazon.com/images/M/MV5BYmQ4YWMxYjEtNjZmYi00NTQ1LWFjMjAtNTM0ZjdiYjdiNTdjXkEyXkFqcGdeQXVyMTMzNDExODE5._V1_FMjpg_UX1000_.jpg" },
+            { id: 8, title: "Fight Club", category: "top", rating: "8.8", genre: "Drama Thriller", creator: "David Fincher", summary: "An insomniac office worker and a devil-may-care soap maker form an underground fight club.", poster: "https://m.media-amazon.com/images/M/MV5BMmEzNTkxYjQtZTc0MC00YTVjLTg5ZTEtZWMwOWVlYzY0NWIwXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 9, title: "The Dark Knight", category: "top", rating: "9.0", genre: "Action Crime", creator: "Christopher Nolan", summary: "Batman raises the stakes in his war on crime with the help of Lieutenant Jim Gordon and District Attorney Harvey Dent.", poster: "https://m.media-amazon.com/images/M/MV5BMTMxNTMwODM0NF5BMl5BanBnXkFtZTcwODAyMTk2Mw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 10, title: "Pulp Fiction", category: "top", rating: "8.9", genre: "Crime Drama", creator: "Quentin Tarantino", summary: "The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence.", poster: "https://m.media-amazon.com/images/M/MV5BNGNhMDIzZTUtNTBlZi00MTRlLWFjM2ItYzViMjE3YzI5MjljXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 11, title: "Gladiator", category: "top", rating: "8.5", genre: "Action Drama", creator: "Ridley Scott", summary: "A former Roman general sets out to exact vengeance against the corrupt emperor who murdered his family.", poster: "https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 12, title: "The Lord of the Rings: The Fellowship of the Ring", category: "top", rating: "8.8", genre: "Fantasy Adventure", creator: "Peter Jackson", summary: "A meek Hobbit of the Shire and eight companions set out on a journey to destroy the Powerful One Ring.", poster: "https://m.media-amazon.com/images/M/MV5BN2EyZjM3NzUtNWUzMi00MTgxLWI0NTctMzY4M2VlOTdjZWRiXkEyXkFqcGdeQXVyNDg4NjAxNjQT._V1_FMjpg_UX1000_.jpg" },
+            { id: 13, title: "Forrest Gump", category: "top", rating: "8.8", genre: "Drama Romance", creator: "Robert Zemeckis", summary: "The presidencies of Kennedy and Johnson, the Vietnam War, and other history unfold from the perspective of an Alabama man.", poster: "https://m.media-amazon.com/images/M/MV5BNWIwODRlZTUtY2U3ZS00Yzg1LWJhNzYtMmZiYmEyNmU1NjMzXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 14, title: "The Silence of the Lambs", category: "top", rating: "8.6", genre: "Crime Thriller", creator: "Jonathan Demme", summary: "A young F.B.I. cadet must receive the help of an incarcerated and manipulative cannibal killer.", poster: "https://m.media-amazon.com/images/M/MV5BNjNhZTk0ZmEtNjJhMi00YzFlLWE1MmEtYzM1M2ZmMGMwMTU4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 15, title: "Interstellar", category: "top", rating: "8.7", genre: "Sci-Fi", creator: "Christopher Nolan", summary: "Space exploration journey to save humanity.", poster: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 16, title: "Avatar", category: "cyber", rating: "7.9", genre: "Sci-Fi Adventure", creator: "James Cameron", summary: "A paraplegic marine dispatched to the moon Pandora on a unique mission becomes torn between following his orders.", poster: "https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3ZjMtYTJkNmI3MjI0ZhBCXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 17, title: "Blade Runner 2049", category: "cyber", rating: "8.0", genre: "Sci-Fi Cyberpunk", creator: "Denis Villeneuve", summary: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard.", poster: "https://m.media-amazon.com/images/M/MV5BNzA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 18, title: "Ghost in the Shell", category: "cyber", rating: "7.9", genre: "Anime Sci-Fi", creator: "Mamoru Oshii", summary: "A cyborg policewoman and her partner hunt a mysterious computer hacker known as the Puppet Master.", poster: "https://m.media-amazon.com/images/M/MV5BYzA0OGQ0NTItMDZkMC00N2UyLTg3ZjMtYTJkNmI3MjI0ZhBCXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 19, title: "Ex Machina", category: "cyber", rating: "7.7", genre: "Sci-Fi Drama", creator: "Alex Garland", summary: "A young programmer is selected to participate in a ground-breaking experiment in synthetic intelligence.", poster: "https://m.media-amazon.com/images/M/MV5BMTUxNzc0OTIxMV5BMl5BanBnXkFtZTgwNDI3NzU2NDE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 20, title: "Her", category: "cyber", rating: "8.0", genre: "Sci-Fi Romance", creator: "Spike Jonze", summary: "A lonely writer develops an unlikely relationship with an operating system designed to meet his every need.", poster: "https://m.media-amazon.com/images/M/MV5BMjA1Njg4NzYxOV5BMl5BanBnXkFtZTgwODk5NjU3MzI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 21, title: "The Terminator", category: "cyber", rating: "8.1", genre: "Sci-Fi Action", creator: "James Cameron", summary: "A human warrior is sent from 2029 to 1984 to prevent a cyborg assassin from killing a young woman.", poster: "https://m.media-amazon.com/images/M/MV5BYTViNzMxZjEtZGEwNy00MDNiLWIzNGQtZWFiMjM4NGY3ZjNmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 22, title: "Terminator 2: Judgment Day", category: "cyber", rating: "8.6", genre: "Sci-Fi Action", creator: "James Cameron", summary: "A cyborg, identical to the one who failed to kill Sarah Connor, must now protect her teenage son.", poster: "https://m.media-amazon.com/images/M/MV5BMGU2NzRmZjUtOGUxYS00ZjdjLWEwZWItY2NlM2JhNjkxNTFmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 23, title: "Tron: Legacy", category: "cyber", rating: "6.8", genre: "Sci-Fi Adventure", creator: "Joseph Kosinski", summary: "The son of a virtual world designer goes looking for his father and ends up inside the digital grid.", poster: "https://m.media-amazon.com/images/M/MV5BMTk3NDYyNTg0OV5BMl5BanBnXkFtZTcwNzY1NzQxMw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 24, title: "Ready Player One", category: "cyber", rating: "7.4", genre: "Sci-Fi Adventure", creator: "Steven Spielberg", summary: "When the creator of a virtual reality universe dies, he releases a video challenge to find an Easter egg.", poster: "https://m.media-amazon.com/images/M/MV5BY2JiYTNmNmItZmNmYy00MjY3LThjODktZDExMGZkZWMyMjA5XkEyXkFqcGdeQXVyODE5NzE3OTE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 25, title: "Hackers", category: "cyber", rating: "6.3", genre: "Crime Thriller", creator: "Iain Softley", summary: "A group of teenagers discover a corporate extortion conspiracy and use their hacking skills.", poster: "https://m.media-amazon.com/images/M/MV5BMTk4MTc1ODQwNV5BMl5BanBnXkFtZTcwNTg5NjUwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 26, title: "Snowden", category: "cyber", rating: "7.3", genre: "Biography Thriller", creator: "Oliver Stone", summary: "The story of NSA whistleblower Edward Snowden who leaked classified information to the media.", poster: "https://m.media-amazon.com/images/M/MV5BMTU3MTU4NTYwNl5BMl5BanBnXkFtZTgwNTQzODEzOTE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 27, title: "The Fifth Estate", category: "cyber", rating: "6.2", genre: "Biography Thriller", creator: "Bill Condon", summary: "A dramatic thriller based on real events that reveals the quest to expose the corrupt secrets.", poster: "https://m.media-amazon.com/images/M/MV5BMTQ4MTc1ODQwNV5BMl5BanBnXkFtZTcwNTg5NjUwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 28, title: "Antitrust", category: "cyber", rating: "6.1", genre: "Crime Thriller", creator: "Peter Howitt", summary: "A computer programmer's dream job at a major software firm turns out to be a nightmare.", poster: "https://m.media-amazon.com/images/M/MV5BMTQ4MTc1ODQwNV5BMl5BanBnXkFtZTcwNTg5NjUwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 29, title: "Swordfish", category: "cyber", rating: "6.5", genre: "Action Thriller", creator: "Dominic Sena", summary: "A covert counter-terrorist unit blackmails a convicted hacker into helping steal government funds.", poster: "https://m.media-amazon.com/images/M/MV5BMTM3MTc1ODQwNV5BMl5BanBnXkFtZTcwNTg5NjUwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 30, title: "Blackhat", category: "cyber", rating: "5.4", genre: "Action Crime", creator: "Michael Mann", summary: "A furloughed convict and his American and Chinese partners hunt a high-level cybercrime network.", poster: "https://m.media-amazon.com/images/M/MV5BMTM3MTc1ODQwNV5BMl5BanBnXkFtZTcwNTg5NjUwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 31, title: "Live Free or Die Hard", category: "action", rating: "7.1", genre: "Action Thriller", creator: "Len Wiseman", summary: "John McClane and a young hacker join forces to defeat a master cyber-terrorist.", poster: "https://m.media-amazon.com/images/M/MV5BMjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 32, title: "Sneakers", category: "cyber", rating: "7.1", genre: "Crime Comedy", creator: "Phil Alden Robinson", summary: "A security pro with a shady past is asked by the NSA to retrieve a decoding device.", poster: "https://m.media-amazon.com/images/M/MV5BMjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 33, title: "Wargames", category: "cyber", rating: "7.1", genre: "Sci-Fi Thriller", creator: "John Badham", summary: "A young young man inadvertently accesses a top-secret military supercomputer.", poster: "https://m.media-amazon.com/images/M/MV5BMjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 34, title: "The Net", category: "cyber", rating: "5.9", genre: "Crime Thriller", creator: "Irwin Winkler", summary: "A computer programmer stumbles upon a conspiracy and finds her identity erased.", poster: "https://m.media-amazon.com/images/M/MV5BMjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 35, title: "Disconnect", category: "cyber", rating: "7.5", genre: "Drama Thriller", creator: "Henry Alex Rubin", summary: "A gritty drama about everyday people trying to navigate modern communication technology.", poster: "https://m.media-amazon.com/images/M/MV5BMjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 36, title: "Minority Report", category: "cyber", rating: "7.6", genre: "Sci-Fi Thriller", creator: "Steven Spielberg", summary: "In a future where a special police unit can arrest murderers before they commit their crimes.", poster: "https://m.media-amazon.com/images/M/MV5BZWVmNmY0NDEtMzY0MS00ZWEzLTkzYTctMDc5MTI1OWJkZGNjXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 37, title: "Total Recall", category: "cyber", rating: "7.5", genre: "Sci-Fi Action", creator: "Paul Verhoeven", summary: "A man goes on virtual vacation to Mars, but an unexpected memory implant malfunctions.", poster: "https://m.media-amazon.com/images/M/MV5BYzA0OGQ0NTItMDZkMC00N2UyLTg3ZjMtYTJkNmI3MjI0ZhBCXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 38, title: "Looper", category: "cyber", rating: "7.4", genre: "Sci-Fi Action", creator: "Rian Johnson", summary: "In 2074, a killer works for a mafia syndicate where targets are sent back from the future.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3NTY0MjEwNV5BMl5BanBnXkFtZTcwMDQzMDgwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 39, title: "Source Code", category: "cyber", rating: "7.5", genre: "Sci-Fi Thriller", creator: "Duncan Jones", summary: "A soldier wakes up in someone else's body and discovers he is part of a terrorist investigation.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3NTY0MjEwNV5BMl5BanBnXkFtZTcwMDQzMDgwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 40, title: "Edge of Tomorrow", category: "top", rating: "7.9", genre: "Sci-Fi Action", creator: "Doug Liman", summary: "A soldier fighting aliens gets to relive the same day over and over again every time he dies.", poster: "https://m.media-amazon.com/images/M/MV5BMTc5OTk4MTM3M15BMl5BanBnXkFtZTgwODcxNjg3MDE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 41, title: "Arrival", category: "top", rating: "7.9", genre: "Sci-Fi Drama", creator: "Denis Villeneuve", summary: "A linguistics professor works with the military to communicate with alien lifeforms.", poster: "https://m.media-amazon.com/images/M/MV5BNWVmNmY0NDEtMzY0MS00ZWEzLTkzYTctMDc5MTI1OWJkZGNjXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 42, title: "Prometheus", category: "top", rating: "7.0", genre: "Sci-Fi Horror", creator: "Ridley Scott", summary: "A team of explorers discover a clue to the origins of mankind on Earth.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3NTY0MjEwNV5BMl5BanBnXkFtZTcwMDQzMDgwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 43, title: "Gravity", category: "top", rating: "7.7", genre: "Sci-Fi Thriller", creator: "Alfonso Cuarón", summary: "Two astronauts work together to survive after an accident leaves them stranded in space.", poster: "https://m.media-amazon.com/images/M/MV5BNjE3NzAxMTQ3Ml5BMl5BanBnXkFtZTcwMjEwMjA3MQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 44, title: "Dune", category: "top", rating: "8.0", genre: "Sci-Fi Adventure", creator: "Denis Villeneuve", summary: "Feature adaptation of Frank Herbert's science fiction novel about a son of a noble family.", poster: "https://m.media-amazon.com/images/M/MV5BN2FiOWU4MTAtNzAxMC00ZjY2LTlkYjktMmIxNWE5MWNmMjQ1XkEyXkFqcGdeQXVyNjIwMTIzNjM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 45, title: "Dune: Part Two", category: "top", rating: "8.6", genre: "Sci-Fi Adventure", creator: "Denis Villeneuve", summary: "Paul Atreides unites with Chani and the Fremen while seeking revenge against the conspirators.", poster: "https://m.media-amazon.com/images/M/MV5BN2FiOWU4MTAtNzAxMC00ZjY2LTlkYjktMmIxNWE5MWNmMjQ1XkEyXkFqcGdeQXVyNjIwMTIzNjM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 46, title: "Avatar: The Way of Water", category: "cyber", rating: "7.6", genre: "Sci-Fi Adventure", creator: "James Cameron", summary: "Jake Sully lives with his newfound family formed on the extrasolar moon Pandora.", poster: "https://m.media-amazon.com/images/M/MV5BZDA0OGQxNTItMDZkMC00N2UyLTg3ZjMtYTJkNmI3MjI0ZhBCXkEyXkFqcGdeQXVyNDUzOTQ5MjY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 47, title: "Pacific Rim", category: "action", rating: "6.9", genre: "Sci-Fi Action", creator: "Guillermo del Toro", summary: "As a war between humankind and monstrous sea creatures wages on, a pilot and a trainee are paired.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3NTY0MjEwNV5BMl5BanBnXkFtZTcwMDQzMDgwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 48, title: "Transformers", category: "action", rating: "7.0", genre: "Sci-Fi Action", creator: "Michael Bay", summary: "An ancient struggle between two Cybertronian races reaches Earth with human stakes.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3NTY0MjEwNV5BMl5BanBnXkFtZTcwMDQzMDgwOA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 49, title: "Iron Man", category: "action", rating: "7.9", genre: "Sci-Fi Action", creator: "Jon Favreau", summary: "After being held captive in an Afghan cave, an engineer billionaire creates an armored suit.", poster: "https://m.media-amazon.com/images/M/MV5BMTczNTI2ODUwOF5BMl5BanBnXkFtZTcwMTU0NTIzMw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 50, title: "Spider-Man: Into the Spider-Verse", category: "top", rating: "8.4", genre: "Animation Action", creator: "Bob Persichetti", summary: "Teen Miles Morales becomes the Spider-Man of his universe, and must cross paths with alternate counterparts.", poster: "https://m.media-amazon.com/images/M/MV5BMjMwNDkxMTgzOF5BMl5BanBnXkFtZTgwNTkwNTQ3NjM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 51, title: "The Lord of the Rings: The Two Towers", category: "top", rating: "8.8", genre: "Fantasy Adventure", creator: "Peter Jackson", summary: "While Frodo and Sam edge closer to Mordor with the help of Gollum.", poster: "https://m.media-amazon.com/images/M/MV5BZGMxZTdjZmYtMmE2Ni00ZTdkLWI5NTgtNjlmMjBiNzU2MmI5XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 52, title: "The Lord of the Rings: The Return of the King", category: "top", rating: "9.0", genre: "Fantasy Adventure", creator: "Peter Jackson", summary: "Gandalf and Aragorn lead the World of Men against Sauron's army.", poster: "https://m.media-amazon.com/images/M/MV5BNzA5ZDNlZWMtM2NhNS00NDJjLTk4NDItYTRmY2EwMWZlMTY3XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 53, title: "Schindler's List", category: "top", rating: "9.0", genre: "Biography Drama", creator: "Steven Spielberg", summary: "In German-occupied Poland during World War II, industrialist Oskar Schindler gradually becomes concerned.", poster: "https://m.media-amazon.com/images/M/MV5BNDE4OTMxMTctNmRhYy00NWE2LTg3YzItYTk3M2UwOTU5Njg4XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 54, title: "12 Angry Men", category: "top", rating: "9.0", genre: "Crime Drama", creator: "Sidney Lumet", summary: "A jury holdout attempts to prevent a miscarriage of justice by forcing his colleagues to reconsider evidence.", poster: "https://m.media-amazon.com/images/M/MV5BMWU4N2FjNzYtNTVjNC00NzQ0LTg0MjAtYTJlMjFhNGUxZDFmXkEyXkFqcGdeQXVyNjc1NTYyMjg@._V1_FMjpg_UX1000_.jpg" },
+            { id: 55, title: "The Godfather", category: "top", rating: "9.2", genre: "Crime Drama", creator: "Francis Ford Coppola", summary: "The aging patriarch of an organized crime dynasty transfers control of his clandestine empire.", poster: "https://m.media-amazon.com/images/M/MV5BM2MyNjYxNmUtYTAwNi00MTYxLWJmNWYtZjZlODhmZDEzYjQzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 56, title: "The Godfather Part II", category: "top", rating: "9.0", genre: "Crime Drama", creator: "Francis Ford Coppola", summary: "The early life and career of Vito Corleone in 1920s New York City is portrayed.", poster: "https://m.media-amazon.com/images/M/MV5BMWMwMGQzZTItY2JlNC00OWZiLWIyMDctNDk2ZDQ2YjZjZGIzXkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 57, title: "GoodFellas", category: "top", rating: "8.7", genre: "Biography Crime", creator: "Martin Scorsese", summary: "The story of Henry Hill and his life in the mob, covering his relationship with his wife.", poster: "https://m.media-amazon.com/images/M/MV5BY2NkZjEzMDgtN2RjYy00YzM1LWI4ZmQtMjIwYjFjNmI0ZGJlXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 58, title: "The Departed", category: "top", rating: "8.5", genre: "Crime Thriller", creator: "Martin Scorsese", summary: "An undercover cop and a mole in the police attempt to identify each other.", poster: "https://m.media-amazon.com/images/M/MV5BMTI5MTIzODU3OV5BMl5BanBnXkFtZTcwMjA3MDMzMQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 59, title: "Interstellar", category: "top", rating: "8.7", genre: "Sci-Fi", creator: "Christopher Nolan", summary: "Humanity's survival search in space.", poster: "https://m.media-amazon.com/images/M/MV5BZjdkOTU3MDktN2IxOS00OGEyLWFmMjktY2FiMmZkNWIyODZiXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 60, title: "Whiplash", category: "top", rating: "8.5", genre: "Drama Music", creator: "Damien Chazelle", summary: "A promising young drummer enrolls at a cut-throat music conservatory.", poster: "https://m.media-amazon.com/images/M/MV5BOTA5NDZlZGUtMjAxOS00YTRkLTkwYmMtYWQ0NWEwZDZiNjEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 61, title: "Parasite", category: "top", rating: "8.5", genre: "Drama Thriller", creator: "Bong Joon Ho", summary: "Greed and class discrimination threaten the newly formed symbiotic relationship.", poster: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 62, title: "The Prestige", category: "top", rating: "8.5", genre: "Drama Mystery", creator: "Christopher Nolan", summary: "After a tragic accident, two stage magicians engage in a battle to create the ultimate illusion.", poster: "https://m.media-amazon.com/images/M/MV5BMjA4NDI0MTIxF5BMl5BanBnXkFtZTYwNTM0MzY2._V1_FMjpg_UX1000_.jpg" },
+            { id: 63, title: "Memento", category: "top", rating: "8.4", genre: "Mystery Thriller", creator: "Christopher Nolan", summary: "A man with short-term memory loss attempts to track down his wife's murderer.", poster: "https://m.media-amazon.com/images/M/MV5BZTcyNjk1MjgtOWFlNy00NDQ0LThlYjEtZmY5MGJjNGFmZWY1XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 64, title: "Se7en", category: "top", rating: "8.6", genre: "Crime Mystery", creator: "David Fincher", summary: "Two detectives, a rookie and a veteran, hunt a serial killer who uses the seven deadly sins.", poster: "https://m.media-amazon.com/images/M/MV5BOTUwODM5MTctZjczMi00OTk4LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 65, title: "The Green Mile", category: "top", rating: "8.6", genre: "Crime Drama", creator: "Frank Darabont", summary: "The lives of guards on Death Row are affected by one of their charges: a black man.", poster: "https://m.media-amazon.com/images/M/MV5BMTUxMzQyNjcxNl5BMl5BanBnXkFtZTYwOTU2NTY3._V1_FMjpg_UX1000_.jpg" },
+            { id: 66, title: "Spirited Away", category: "top", rating: "8.6", genre: "Animation Fantasy", creator: "Hayao Miyazaki", summary: "During her family's move to the suburbs, a sullen 10-year-old girl wanders into a world ruled by gods.", poster: "https://m.media-amazon.com/images/M/MV5BMjlmZmI5MDctNDE2YS00YWE0LWI5ZWItZWMyYWQ4OTAwMzhlXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 67, title: "Lion King", category: "top", rating: "8.5", genre: "Animation Adventure", creator: "Roger Allers", summary: "Lion prince Simba and his father are targeted by his bitter uncle.", poster: "https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2JmM2JiMTA0XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 68, title: "Back to the Future", category: "top", rating: "8.5", genre: "Sci-Fi Adventure", creator: "Robert Zemeckis", summary: "Marty McFly is accidentally sent 30 years into the past in a time-traveling DeLorean.", poster: "https://m.media-amazon.com/images/M/MV5BMTZmNzY0NzItNTU4MS00MmQyLWFkNzgtM2VkNTZjZjE0ZGU2XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 69, title: "Alien", category: "top", rating: "8.5", genre: "Sci-Fi Horror", creator: "Ridley Scott", summary: "The crew of a commercial interstellar spaceship encounter a deadly lifeform.", poster: "https://m.media-amazon.com/images/M/MV5BOGQzZTBjMjQtOTVmMS00NGE5LWEyYmMtOGQ1ZGZjNmRkYjFhXkEyXkFqcGdeQXVyMjUzOTY1MTc@._V1_FMjpg_UX1000_.jpg" },
+            { id: 70, title: "Aliens", category: "top", rating: "8.4", genre: "Sci-Fi Action", creator: "James Cameron", summary: "Ellen Ripley is reassigned to return to LV-426 with a squad of space marines.", poster: "https://m.media-amazon.com/images/M/MV5BZGU2OGY5ZWYtOWMzNS00NmY3LWI3ZjEtNzBmN2Y1M2NlNWI0XkEyXkFqcGdeQXVyMjUzOTY1MTc@._V1_FMjpg_UX1000_.jpg" },
+            { id: 71, title: "Django Unchained", category: "top", rating: "8.5", genre: "Western Drama", creator: "Quentin Tarantino", summary: "With the help of a German bounty-hunter, a freed slave sets out to rescue his wife.", poster: "https://m.media-amazon.com/images/M/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 72, title: "The Shining", category: "top", rating: "8.4", genre: "Horror Drama", creator: "Stanley Kubrick", summary: "A family heads to an isolated hotel for the winter where an evil spiritual presence influences the father.", poster: "https://m.media-amazon.com/images/M/MV5BZWFlYmY2MGEtZjVkYS00YzQ4LTg0YjQtYzY0NmJjYTM1NzA1XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 73, title: "WALL-E", category: "top", rating: "8.4", genre: "Animation Sci-Fi", creator: "Andrew Stanton", summary: "In the distant future, a small waste-collecting robot inadvertently embarks on a space journey.", poster: "https://m.media-amazon.com/images/M/MV5BMjExMTg5OTU0NF5BMl5BanBnXkFtZTcwMjMxMzMzMw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 74, title: "Amélie", category: "top", rating: "8.3", genre: "Comedy Romance", creator: "Jean-Pierre Jeunet", summary: "Amelie is an innocent and naive girl in Paris with her own sense of justice.", poster: "https://m.media-amazon.com/images/M/MV5BNDg4NjM1YjEtYmNhMC00MjczLWFiZWQtYzg5Y2Q3YjE1YjE1XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 75, title: "A Clockwork Orange", category: "top", rating: "8.3", genre: "Sci-Fi Crime", creator: "Stanley Kubrick", summary: "In the future, a sadistic gang leader is imprisoned and volunteers for experimental aversion therapy.", poster: "https://m.media-amazon.com/images/M/MV5BMTY3MjM1Mzc4Nl5BMl5BanBnXkFtZTgwODM0NzAxMDE@._V1_FMjpg_UX1000_.jpg" },
+            { id: 76, title: "Toy Story", category: "top", rating: "8.3", genre: "Animation Adventure", creator: "John Lasseter", summary: "A cowboy doll is profoundly threatened and jealous when a new spaceman action figure supplants him.", poster: "https://m.media-amazon.com/images/M/MV5BMDU2ZWJlMjktMTRhMy00ZTA5LWEzNDgtYmNmZTE5OWZkNDFkXkEyXkFqcGdeQXVyNDQ2OTk4MzI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 77, title: "Oldboy", category: "top", rating: "8.4", genre: "Action Mystery", creator: "Park Chan-wook", summary: "After being kidnapped and imprisoned for fifteen years, Oh Dae-su is released.", poster: "https://m.media-amazon.com/images/M/MV5BMTI3NTQyMTU0Nl5BMl5BanBnXkFtZTcwMTE4MDYyMQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 78, title: "Once Upon a Time in the West", category: "top", rating: "8.5", genre: "Western", creator: "Sergio Leone", summary: "A mysterious stranger with a harmonica joins forces with a desperado to protect a beautiful widow.", poster: "https://m.media-amazon.com/images/M/MV5BODQ3NDExOGYtMzI3Mi00OWY4LWI0Y2MtNTNlYjdhNzYyNzc0XkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 79, title: "Casablanca", category: "top", rating: "8.5", genre: "Drama Romance", creator: "Michael Curtiz", summary: "A cynical expatriate American cafe owner struggles to decide whether or not to help his former lover.", poster: "https://m.media-amazon.com/images/M/MV5BY2IzZGY2YmEtYzljNS00NTM5LTgwMzUtMzM1NjQ4NGI0OTk0XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 80, title: "Rear Window", category: "top", rating: "8.5", genre: "Mystery Thriller", creator: "Alfred Hitchcock", summary: "A wheelchair-bound photographer spies on his neighbors from his apartment window.", poster: "https://m.media-amazon.com/images/M/MV5BNGUxYWM3M2MtMDRjMi00OGFiLWI0NmEtZjA2ODQwNDk1MmY5XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 81, title: "Psycho", category: "top", rating: "8.5", genre: "Horror Mystery", creator: "Alfred Hitchcock", summary: "A Phoenix secretary embezzles forty thousand dollars from her employer's client.", poster: "https://m.media-amazon.com/images/M/MV5BNTQwNDM1YzItNDAxZC00NjY2LWEhODktNTBlMGY1YWJkZDY1XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 82, title: "The Usual Suspects", category: "top", rating: "8.5", genre: "Crime Mystery", creator: "Bryan Singer", summary: "A sole survivor tells of the twisty events leading up to a horrific gun battle on a ship.", poster: "https://m.media-amazon.com/images/M/MV5BYTViNzMxZjEtZGEwNy00MDNiLWIzNGQtZWFiMjM4NGY3ZjNmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 83, title: "Memento", category: "top", rating: "8.4", genre: "Mystery", creator: "Christopher Nolan", summary: "Memory loss investigation thriller.", poster: "https://m.media-amazon.com/images/M/MV5BZTcyNjk1MjgtOWFlNy00NDQ0LThlYjEtZmY5MGJjNGFmZWY1XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 84, title: "City of God", category: "top", rating: "8.6", genre: "Crime Drama", creator: "Fernando Meirelles", summary: "In the slums of Rio, two kids paths diverge as one chooses photography and the other crime.", poster: "https://m.media-amazon.com/images/M/MV5BOTMwNzMzNzktOTAwNS00OTk0LTg3NWUtNmVhMTAzNTNjYjcyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 85, title: "Life Is Beautiful", category: "top", rating: "8.6", genre: "Comedy Drama", creator: "Roberto Benigni", summary: "When an open-minded Jewish librarian and his son become victims of the Holocaust.", poster: "https://m.media-amazon.com/images/M/MV5BYmJmM2Q4NmMtYThmNS00ZjEyLWE0MjYtZGM4Y2QyZjYyMGIyXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 86, title: "The Intouchables", category: "top", rating: "8.5", genre: "Biography Comedy", creator: "Olivier Nakache", summary: "After he becomes a quadriplegic from a paragliding accident, an aristocrat hires a young man.", poster: "https://m.media-amazon.com/images/M/MV5BMTYxNDA3MDQwNl5BMl5BanBnXkFtZTcwNTU4Mzc1Nw@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 87, title: "The Pianist", category: "top", rating: "8.5", genre: "Biography Drama", creator: "Roman Polanski", summary: "A Polish Jewish musician struggles to survive the destruction of the Warsaw ghetto.", poster: "https://m.media-amazon.com/images/M/MV5BOWRiZDIxZjktMTA1NC00MDQ2LWEzMjktMTliZmY4NjQ3ODJiXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 88, title: "The Lion King", category: "top", rating: "8.5", genre: "Animation", creator: "Roger Allers", summary: "Simba's journey to claim his throne.", poster: "https://m.media-amazon.com/images/M/MV5BYTYxNGMyZTYtMjE3MS00MzNjLWFjNmYtMDk3N2JmM2JiMTA0XkEyXkFqcGdeQXVyNjY5NDU4NzI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 89, title: "Gladiator", category: "top", rating: "8.5", genre: "Action", creator: "Ridley Scott", summary: "Maximus seeks revenge.", poster: "https://m.media-amazon.com/images/M/MV5BMDliMmNhNDEtODUyOS00MjNlLTgxODEtN2U3NzIxMGVkZTA1XkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 90, title: "The Departed", category: "top", rating: "8.5", genre: "Crime", creator: "Martin Scorsese", summary: "Undercover cop and mole game.", poster: "https://m.media-amazon.com/images/M/MV5BMTI5MTIzODU3OV5BMl5BanBnXkFtZTcwMjA3MDMzMQ@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 91, title: "Whiplash", category: "top", rating: "8.5", genre: "Drama", creator: "Damien Chazelle", summary: "Intense music conservatory training.", poster: "https://m.media-amazon.com/images/M/MV5BOTA5NDZlZGUtMjAxOS00YTRkLTkwYmMtYWQ0NWEwZDZiNjEzXkEyXkFqcGdeQXVyMTMxODk2OTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 92, title: "The Prestige", category: "top", rating: "8.5", genre: "Mystery", creator: "Christopher Nolan", summary: "Magicians rivalry.", poster: "https://m.media-amazon.com/images/M/MV5BMjA4NDI0MTIxF5BMl5BanBnXkFtZTYwNTM0MzY2._V1_FMjpg_UX1000_.jpg" },
+            { id: 93, title: "Parasite", category: "top", rating: "8.5", genre: "Thriller", creator: "Bong Joon Ho", summary: "Class discrimination story.", poster: "https://m.media-amazon.com/images/M/MV5BYWZjMjk3ZTItODQ2ZC00NTY5LWE0ZDYtZTI3MjcwN2Q5NTVkXkEyXkFqcGdeQXVyODk4OTc3MTY@._V1_FMjpg_UX1000_.jpg" },
+            { id: 94, title: "Back to the Future", category: "top", rating: "8.5", genre: "Sci-Fi", creator: "Robert Zemeckis", summary: "Time travel adventure.", poster: "https://m.media-amazon.com/images/M/MV5BMTZmNzY0NzItNTU4MS00MmQyLWFkNzgtM2VkNTZjZjE0ZGU2XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 95, title: "Alien", category: "top", rating: "8.5", genre: "Horror", creator: "Ridley Scott", summary: "Space creature horror.", poster: "https://m.media-amazon.com/images/M/MV5BOGQzZTBjMjQtOTVmMS00NGE5LWEyYmMtOGQ1ZGZjNmRkYjFhXkEyXkFqcGdeQXVyMjUzOTY1MTc@._V1_FMjpg_UX1000_.jpg" },
+            { id: 96, title: "Django Unchained", category: "top", rating: "8.5", genre: "Western", creator: "Quentin Tarantino", summary: "Bounty hunter rescue mission.", poster: "https://m.media-amazon.com/images/M/MV5BMjIyNTQ5NjQ1OV5BMl5BanBnXkFtZTcwODg1MDU4OA@@._V1_FMjpg_UX1000_.jpg" },
+            { id: 97, title: "Casablanca", category: "top", rating: "8.5", genre: "Romance", creator: "Michael Curtiz", summary: "Expatriate cafe owner love story.", poster: "https://m.media-amazon.com/images/M/MV5BY2IzZGY2YmEtYzljNS00NTM5LTgwMzUtMzM1NjQ4NGI0OTk0XkEyXkFqcGdeQXVyNDYyMDk5MTU@._V1_FMjpg_UX1000_.jpg" },
+            { id: 98, title: "Rear Window", category: "top", rating: "8.5", genre: "Mystery", creator: "Alfred Hitchcock", summary: "Neighbor spying thriller.", poster: "https://m.media-amazon.com/images/M/MV5BNGUxYWM3M2MtMDRjMi00OGFiLWI0NmEtZjA2ODQwNDk1MmY5XkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_FMjpg_UX1000_.jpg" },
+            { id: 99, title: "Psycho", category: "top", rating: "8.5", genre: "Horror", creator: "Alfred Hitchcock", summary: "Classic motel horror.", poster: "https://m.media-amazon.com/images/M/MV5BNTQwNDM1YzItNDAxZC00NjY2LWEhODktNTBlMGY1YWJkZDY1XkEyXkFqcGdeQXVyNzkwMjQ5NzM@._V1_FMjpg_UX1000_.jpg" },
+            { id: 100, title: "The Usual Suspects", category: "top", rating: "8.5", genre: "Crime", creator: "Bryan Singer", summary: "Twisty criminal interrogation.", poster: "https://m.media-amazon.com/images/M/MV5BYTViNzMxZjEtZGEwNy00MDNiLWIzNGQtZWFiMjM4NGY3ZjNmXkEyXkFqcGdeQXVyNjU0OTQ0OTY@._V1_FMjpg_UX1000_.jpg" }
+        ];
+
+        function displayMovies(items) {
+            const grid = document.getElementById('movieGrid');
+            grid.innerHTML = "";
+
+            if(items.length === 0) {
+                grid.innerHTML = "<p style='color:#777; grid-column: 1/-1;'>No matching movies found.</p>";
+                return;
+            }
+
+            items.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <div class="poster-box" onclick="openModal(${movie.id})">
+                        <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                    </div>
+                    <div class="movie-info">
+                        <div class="rating-row">
+                            <span class="star">?</span>
+                            <span><strong>${movie.rating}</strong>/10</span>
+                        </div>
+                        <a href="#" class="movie-title" onclick="openModal(${movie.id}); return false;">${movie.title}</a>
+                        <button class="card-btn" onclick="openModal(${movie.id})">Details</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+        }
+
+        displayMovies(moviesData);
+
+        function filterMovies(type) {
+            const heading = document.getElementById('sectionHeading');
+            if(type === 'all') {
+                heading.innerText = "All 100 Curated Masterpieces";
+                displayMovies(moviesData);
+            } else if(type === 'cyber') {
+                heading.innerText = "Cyber-Security & Sci-Fi Thrillers";
+                const filtered = moviesData.filter(m => m.category === 'cyber');
+                displayMovies(filtered);
+            } else if(type === 'top') {
+                heading.innerText = "Top Rated Masterpieces (8.5+ Rating)";
+                const filtered = moviesData.filter(m => parseFloat(m.rating) >= 8.5);
+                displayMovies(filtered);
+            }
+        }
+
+        function searchMovies() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = moviesData.filter(m => m.title.toLowerCase().includes(query) || m.genre.toLowerCase().includes(query));
+            document.getElementById('sectionHeading').innerText = query ? `Search Results for "${query}"` : "All 100 Curated Masterpieces";
+            displayMovies(filtered);
+        }
+
+        function openModal(id) {
+            const movie = moviesData.find(m => m.id === id);
+            if(!movie) return;
+
+            document.getElementById('modalTitle').innerText = movie.title;
+            document.getElementById('modalBody').innerHTML = `
+                <div style="display:flex; gap:20px; flex-wrap:wrap;">
+                    <img src="${movie.poster}" alt="${movie.title}" style="width:180px; height:260px; object-fit:cover; border-radius:4px; border:1px solid #333;">
+                    <div style="flex:1; min-width:250px;">
+                        <p><strong>Genre / Type:</strong> ${movie.genre}</p>
+                        <p><strong>IMDb Rating:</strong> <span style="color:#f5c518;">? ${movie.rating} / 10</span></p>
+                        <p><strong>Creator / Director:</strong> ${movie.creator}</p>
+                        <hr style="border:0; border-top:1px solid #333; margin:15px 0;">
+                        <p><strong>Story Overview:</strong><br>${movie.summary}</p>
+                    </div>
+                </div>
+            `;
+            document.getElementById('movieModal').style.display = 'flex';
+        }
+
+        function closeModal() {
+            document.getElementById('movieModal').style.display = 'none';
+        }
+
+        window.onclick = function(event) {
+            const modal = document.getElementById('movieModal');
+            if (event.target === modal) {
+                closeModal();
+            }
+        }
+    </script>
+</body>
+</html>
