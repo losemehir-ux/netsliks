@@ -15,6 +15,20 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>CineCyber - 100 Ultimate Movies & Series Database</title>
     <style>
+          /* Simple Mobile Grid Fix */
+.movies-container, .grid-container {
+    display: grid !important;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)) !important; /* Yeh har mobile screen par fit ho jayega */
+    gap: 10px !important;
+    padding: 10px !important;
+    width: 100% !important;
+    box-sizing: border-box !important;
+}
+
+.movie-card {
+    width: 100% !important;
+    margin: 0 !important;
+}
         * {
             margin: 0;
             padding: 0;
@@ -306,13 +320,6 @@
                 margin: 0;
                 max-width: 100%;
             }
-             
-        .movies-container, .grid-container {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); /* 130px se mobile par aik row mein 2-3 posters fit ho jayenge */
-    gap: 10px;
-    padding: 10px;
-}
           
     </style>
 </head>
@@ -474,7 +481,7 @@
                 card.className = 'movie-card';
                 card.innerHTML = `
                     <div class="poster-box" onclick="openModal(${movie.id})">
-                        <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                       <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
                     </div>
                     <div class="movie-info">
                         <div class="rating-row">
