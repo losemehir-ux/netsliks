@@ -391,33 +391,34 @@
 ];
 
 const grid = document.getElementById('movieGrid');
-grid.innerHTML = "";
+if (grid) {
+    grid.innerHTML = "";
+    const items = moviesData;
 
-const items = moviesData;
-
-if(items.length === 0) {
-    grid.innerHTML = "<p style='color:#777; grid-column: 1/-1;'>No matching movies found.</p>";
-} else {
-    items.forEach(movie => {
-        const card = document.createElement('div');
-        card.className = 'movie-card';
-        card.innerHTML = `
-            <div class="poster-box" onclick="openModal(${movie.id})">
-                <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
-            </div>
-            <div class="movie-info">
-                <div class="rating-row">
-                    <span class="star">★</span>
-                    <span><strong>${movie.rating}</strong>/10</span>
+    if (items.length === 0) {
+        grid.innerHTML = "<p style='color:#777; grid-column: 1/-1;'>No matching movies found.</p>";
+    } else {
+        items.forEach(movie => {
+            const card = document.createElement('div');
+            card.className = 'movie-card';
+            card.innerHTML = `
+                <div class="poster-box" onclick="openModal(${movie.id})">
+                    <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
                 </div>
-                <a href="#" class="movie-title" onclick="openModal(${movie.id}); return false;">${movie.title}</a>
-                <button class="card-btn" onclick="openModal(${movie.id})">Details</button>
-            </div>
-        `;
-        grid.appendChild(card);
-    });
-}
-    `;
+                <div class="movie-info">
+                    <div class="rating-row">
+                        <span class="star">★</span>
+                        <span><strong>${movie.rating}</strong>/10</span>
+                    </div>
+                    <a href="#" class="movie-title" onclick="openModal(${movie.id}); return false;">${movie.title}</a>
+                    <button class="card-btn" onclick="openModal(${movie.id})">Details</button>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+    }
+}       
+    
     grid.appendChild(card);
 });
 
