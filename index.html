@@ -278,11 +278,11 @@
         <div class="rating-section">
             <h3>Your feedback matters to us—help us improve with your rating!</h3>
             <div class="stars-container" id="starContainer">
-                <span data-value="1">★</span>
-                <span data-value="2">★</span>
-                <span data-value="3">★</span>
-                <span data-value="4">★</span>
-                <span data-value="5">★</span>
+                <span data-value="1">?</span>
+                <span data-value="2">?</span>
+                <span data-value="3">?</span>
+                <span data-value="4">?</span>
+                <span data-value="5">?</span>
             </div>
             <textarea id="feedbackText" placeholder="Write your feedback here..."></textarea>
             <br>
@@ -374,7 +374,7 @@
                 body: JSON.stringify(data)
             })
             .then(() => {
-                alert(`Thank you for rating our website ${selectedRating} stars! ❤️`);
+                alert(`Thank you for rating our website ${selectedRating} stars! ??`);
                 selectedRating = 0;
                 document.getElementById('feedbackText').value = "";
                 stars.forEach(s => s.classList.remove('selected'));
@@ -406,7 +406,7 @@
                     </div>
                     <div class="movie-info">
                         <div class="rating-row">
-                            <span class="star">★</span>
+                            <span class="star">?</span>
                             <span><strong>${movie.rating}</strong>/10</span>
                         </div>
                         <span class="movie-title">${movie.title}</span>
