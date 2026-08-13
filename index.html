@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineCyber huzaafsnet - 100 Ultimate Masterpieces</title>
+    <title>CineCyber - 100 Ultimate Masterpieces</title>
     <style>
         * {
             margin: 0;
@@ -25,6 +25,8 @@
             justify-content: space-between;
             align-items: center;
             border-bottom: 1px solid #222;
+            flex-wrap: wrap;
+            gap: 15px;
         }
         .logo {
             background-color: #f5c518;
@@ -33,6 +35,20 @@
             padding: 5px 10px;
             border-radius: 4px;
             font-size: 1.2rem;
+        }
+        .search-box {
+            background-color: #222;
+            border: 1px solid #333;
+            border-radius: 4px;
+            padding: 8px 15px;
+            width: 300px;
+            color: #fff;
+            font-size: 0.95rem;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+        .search-box:focus {
+            border-color: #f5c518;
         }
         .main-container {
             padding: 30px;
@@ -247,6 +263,7 @@
 
     <header>
         <div class="logo">huzafnet</div>
+        <input type="text" id="searchInput" class="search-box" placeholder="Search movies or series..." onkeyup="filterMovies()">
     </header>
 
     <div class="main-container">
@@ -372,11 +389,15 @@
             });
         }
 
-        // Render Movie Grid
-        const grid = document.getElementById('movieGrid');
-        if (grid) {
+        // Render Movie Grid Function
+        function displayMovies(movies) {
+            const grid = document.getElementById('movieGrid');
             grid.innerHTML = "";
-            moviesData.forEach(movie => {
+            if (movies.length === 0) {
+                grid.innerHTML = "<p style='color: #777; grid-column: 1/-1; text-align: center;'>No movies found!</p>";
+                return;
+            }
+            movies.forEach(movie => {
                 const card = document.createElement('div');
                 card.className = 'movie-card';
                 card.innerHTML = `
@@ -395,6 +416,19 @@
                 grid.appendChild(card);
             });
         }
+
+        // Search Filter Function
+        function filterMovies() {
+            const query = document.getElementById('searchInput').value.toLowerCase();
+            const filtered = moviesData.filter(movie => 
+                movie.title.toLowerCase().includes(query) || 
+                movie.character.toLowerCase().includes(query)
+            );
+            displayMovies(filtered);
+        }
+
+        // Initial render
+        displayMovies(moviesData);
 
         // Modal Functions
         function openModal(id) {
