@@ -3,8 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta name="google-site-verification" content="">
-    <title>CineCyber - 100 Ultimate Masterpieces</title>
+    <title>CineCyber huzafsnet - 100 Ultimate Masterpieces</title>
     <style>
         * {
             margin: 0;
@@ -35,23 +34,6 @@
             border-radius: 4px;
             font-size: 1.2rem;
         }
-        .search-bar input {
-            padding: 8px 15px;
-            width: 300px;
-            border-radius: 4px;
-            border: none;
-            background-color: #222;
-            color: #fff;
-        }
-        nav a {
-            color: #fff;
-            text-decoration: none;
-            margin-left: 20px;
-            font-weight: 600;
-        }
-        nav a:hover {
-            color: #f5c518;
-        }
         .main-container {
             padding: 30px;
             flex: 1;
@@ -70,14 +52,6 @@
         .section-header h2 {
             font-size: 1.5rem;
             color: #f5c518;
-        }
-        .reset-filter {
-            color: #aaa;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        .reset-filter:hover {
-            color: #fff;
         }
         .movie-grid {
             display: grid;
@@ -138,9 +112,6 @@
             text-overflow: ellipsis;
             white-space: nowrap;
         }
-        .movie-title:hover {
-            color: #f5c518;
-        }
         .card-btn {
             background-color: #222;
             color: #fff;
@@ -155,6 +126,51 @@
         .card-btn:hover {
             background-color: #f5c518;
             color: #000;
+        }
+        .rating-section {
+            background-color: #141414;
+            padding: 30px;
+            border-radius: 8px;
+            margin-top: 50px;
+            border: 1px solid #222;
+            text-align: center;
+        }
+        .rating-section h3 {
+            color: #f5c518;
+            margin-bottom: 15px;
+        }
+        .stars-container {
+            font-size: 2rem;
+            cursor: pointer;
+            color: #555;
+            margin-bottom: 15px;
+        }
+        .stars-container .selected {
+            color: #f5c518;
+        }
+        .rating-section textarea {
+            width: 100%;
+            max-width: 600px;
+            height: 100px;
+            padding: 10px;
+            border-radius: 4px;
+            border: none;
+            background-color: #222;
+            color: #fff;
+            margin-bottom: 15px;
+            resize: none;
+        }
+        .submit-rating-btn {
+            background-color: #f5c518;
+            color: #000;
+            border: none;
+            padding: 10px 25px;
+            font-weight: bold;
+            border-radius: 4px;
+            cursor: pointer;
+        }
+        .submit-rating-btn:hover {
+            background-color: #e5b510;
         }
         footer {
             background-color: #141414;
@@ -171,80 +187,105 @@
 
     <header>
         <div class="logo">huzafnet</div>
-        <div class="search-bar">
-            <input type="text" placeholder="Search 100 Movies & Series...">
-        </div>
-        <nav>
-            <a href="#">Home</a>
-            <a href="#">Cyber & Sci-Fi</a>
-        </nav>
     </header>
 
     <div class="main-container">
         <div class="section-header">
-            <h2>All 12 Curated Masterpieces</h2>
-            <a href="#" class="reset-filter">Reset Filter</a>
+            <h2>Curated Masterpieces</h2>
         </div>
         
         <div class="movie-grid" id="movieGrid">
-            <!-- Dynamic Cards will load here -->
+            <!-- Dynamic Cards -->
+        </div>
+
+        <div class="rating-section">
+            <h3>Rate Our Website</h3>
+            <div class="stars-container" id="starContainer">
+                <span data-value="1">★</span>
+                <span data-value="2">★</span>
+                <span data-value="3">★</span>
+                <span data-value="4">★</span>
+                <span data-value="5">★</span>
+            </div>
+            <textarea id="feedbackText" placeholder="Write your feedback here..."></textarea>
+            <br>
+            <button class="submit-rating-btn" onclick="submitRating()">Submit Rating</button>
         </div>
     </div>
 
     <footer>
-        <p>&copy; 2026 CineCyber Database. Developed by Huzaifa. Official Working Posters.</p>
+        <p>&copy; 2026 CineCyber Database. Developed by Huzaifa.</p>
     </footer>
 
     <script>
         const moviesData = [
-            { id: 1, title: "The Matrix", category: "cyber", rating: "8.7", genre: "Sci-Fi Action", creator: "The Wachowskis", summary: "A hacker discovers the true nature of his reality and his role in the war against its controllers.", poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
-            { id: 2, title: "Interstellar", category: "top", rating: "8.7", genre: "Sci-Fi Drama", creator: "Christopher Nolan", summary: "A team of explorers travel through a wormhole in space in an attempt to ensure humanity's survival.", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" },
-            { id: 3, title: "Inception", category: "top", rating: "8.8", genre: "Sci-Fi Thriller", creator: "Christopher Nolan", summary: "A thief who steals corporate secrets through the use of dream-sharing technology.", poster: "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
-            { id: 4, title: "Breaking Bad", category: "top", rating: "9.5", genre: "Crime Drama", creator: "Vince Gilligan", summary: "A chemistry teacher diagnosed with cancer turns to manufacturing and selling methamphetamine.", poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg" },
-            { id: 5, title: "Fight Club", category: "top", rating: "8.8", genre: "Drama Thriller", creator: "David Fincher", summary: "An insomniac office worker and a devil-may-care soap maker form an underground fight club.", poster: "https://image.tmdb.org/t/p/w500/bptfVGEQuv6vDTIMVCHjJ9Dz8PX.jpg" },
-            { id: 6, title: "The Dark Knight", category: "top", rating: "9.0", genre: "Action Crime", creator: "Christopher Nolan", summary: "Batman raises the stakes in his war on crime with the help of Lieutenant Jim Gordon and District Attorney Harvey Dent.", poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
-            { id: 7, title: "Pulp Fiction", category: "top", rating: "8.9", genre: "Crime Drama", creator: "Quentin Tarantino", summary: "The lives of two mob hitmen, a boxer, a gangster and his wife intertwine in four tales of violence.", poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
-            { id: 8, title: "Gladiator", category: "top", rating: "8.5", genre: "Action Drama", creator: "Ridley Scott", summary: "A former Roman general sets out to exact vengeance against the corrupt emperor who murdered his family.", poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg" },
-            { id: 9, title: "Blade Runner 2049", category: "cyber", rating: "8.0", genre: "Sci-Fi Cyberpunk", creator: "Denis Villeneuve", summary: "A young blade runner's discovery of a long-buried secret leads him to track down former blade runner Rick Deckard.", poster: "https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" },
-            { id: 10, title: "The Terminator", category: "cyber", rating: "8.1", genre: "Sci-Fi Action", creator: "James Cameron", summary: "A human warrior is sent from 2029 to 1984 to prevent a cyborg assassin from killing a young woman.", poster: "https://image.tmdb.org/t/p/w500/hzZCOdrgCGwDRAtDvOa4nN8f2Q2.jpg" },
-            { id: 11, title: "Terminator 2: Judgment Day", category: "cyber", rating: "8.6", genre: "Sci-Fi Action", creator: "James Cameron", summary: "A cyborg, identical to the one who failed to kill Sarah Connor, must now protect her teenage son.", poster: "https://image.tmdb.org/t/p/w500/5M0j0B18abtBE5gi2Fy3QDCoVST.jpg" },
-            { id: 12, title: "Spider-Man: Into the Spider-Verse", category: "top", rating: "8.4", genre: "Animation Action", creator: "Bob Persichetti", summary: "Teen Miles Morales becomes the Spider-Man of his universe, and must cross paths with alternate counterparts.", poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg" }
+            { id: 1, title: "The Matrix", rating: "8.7", poster: "https://image.tmdb.org/t/p/w500/f89U3ADr1oiB1s9GkdPOEpXUk5H.jpg" },
+            { id: 2, title: "Interstellar", rating: "8.7", poster: "https://image.tmdb.org/t/p/w500/gEU2QniE6E77NI6lCU6MxlNBvIx.jpg" },
+            { id: 3, title: "Inception", rating: "8.8", poster: "https://image.tmdb.org/t/p/w500/edv5CZvWj09upOsy2Y6IwDhK8bt.jpg" },
+            { id: 4, title: "Breaking Bad", rating: "9.5", poster: "https://image.tmdb.org/t/p/w500/ggFHVNu6YYI5L9pCfOacjizRGt.jpg" },
+            { id: 5, title: "Fight Club", rating: "8.8", poster: "https://image.tmdb.org/t/p/w500/bptfVGEQuv6vDTIMVCHjJ9Dz8PX.jpg" },
+            { id: 6, title: "The Dark Knight", rating: "9.0", poster: "https://image.tmdb.org/t/p/w500/qJ2tW6WMUDux911r6m7haRef0WH.jpg" },
+            { id: 7, title: "Pulp Fiction", rating: "8.9", poster: "https://image.tmdb.org/t/p/w500/d5iIlFn5s0ImszYzBPb8JPIfbXD.jpg" },
+            { id: 8, title: "Gladiator", rating: "8.5", poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg" },
+            { id: 9, title: "Blade Runner 2049", rating: "8.0", poster: "https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" },
+            { id: 10, title: "Spider-Man: Into the Spider-Verse", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg" },
+            // Nayi 5 working movies add ki gayi hain:
+            { id: 11, title: "Avatar", rating: "7.9", poster: "https://image.tmdb.org/t/p/w500/kyeShkV8swvHmiw8rK3bZc3xP4z.jpg" },
+            { id: 12, title: "Avengers: Endgame", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
+            { id: 13, title: "Joker", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" },
+            { id: 14, title: "Parasite", rating: "8.5", poster: "https://image.tmdb.org/t/p/w500/7IiTTgloJzvGI1TAYymCfbfl3vT.jpg" },
+            { id: 15, title: "The Lord of the Rings: The Fellowship of the Ring", rating: "8.8", poster: "https://image.tmdb.org/t/p/w500/6oom5QYQ2yQTMJIbnvbkBL9cHo6.jpg" }
         ];
 
-        function openModal(id) {
-            const movie = moviesData.find(m => m.id === id);
-            if(movie) {
-                alert(movie.title + "\n\n" + movie.summary + "\n\nRating: " + movie.rating + "/10");
+        let selectedRating = 0;
+        const stars = document.querySelectorAll('#starContainer span');
+
+        stars.forEach(star => {
+            star.addEventListener('click', function() {
+                selectedRating = this.getAttribute('data-value');
+                stars.forEach(s => {
+                    if(s.getAttribute('data-value') <= selectedRating) {
+                        s.classList.add('selected');
+                    } else {
+                        s.classList.remove('selected');
+                    }
+                });
+            });
+        });
+
+        function submitRating() {
+            const feedback = document.getElementById('feedbackText').value;
+            if(selectedRating === 0) {
+                alert("Please select at least 1 star before submitting!");
+                return;
             }
+            alert(`Thank you for rating our website ${selectedRating} stars! ❤️\nFeedback: ${feedback ? feedback : "No comment"}`);
+            selectedRating = 0;
+            document.getElementById('feedbackText').value = "";
+            stars.forEach(s => s.classList.remove('selected'));
         }
 
         const grid = document.getElementById('movieGrid');
         if (grid) {
             grid.innerHTML = "";
-            const items = moviesData;
-
-            if (items.length === 0) {
-                grid.innerHTML = "<p style='color:#777; grid-column: 1/-1;'>No matching movies found.</p>";
-            } else {
-                items.forEach(movie => {
-                    const card = document.createElement('div');
-                    card.className = 'movie-card';
-                    card.innerHTML = `
-                        <div class="poster-box" onclick="openModal(${movie.id})">
-                            <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+            moviesData.forEach(movie => {
+                const card = document.createElement('div');
+                card.className = 'movie-card';
+                card.innerHTML = `
+                    <div class="poster-box">
+                        <img src="${movie.poster}" alt="${movie.title}" loading="lazy">
+                    </div>
+                    <div class="movie-info">
+                        <div class="rating-row">
+                            <span class="star">★</span>
+                            <span><strong>${movie.rating}</strong>/10</span>
                         </div>
-                        <div class="movie-info">
-                            <div class="rating-row">
-                                <span class="star">★</span>
-                                <span><strong>${movie.rating}</strong>/10</span>
-                            </div>
-                            <a href="#" class="movie-title" onclick="openModal(${movie.id}); return false;">${movie.title}</a>
-                            <button class="card-btn" onclick="openModal(${movie.id})">Details</button>
-                        </div>
-                    `;
-                    grid.appendChild(card);
-                });
-            }
+                        <a href="#" class="movie-title">${movie.title}</a>
+                        <button class="card-btn">Details</button>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
         }
     </script>
 </body>
