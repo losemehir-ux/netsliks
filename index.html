@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>CineCyber huzafsnet - 100 Ultimate Masterpieces</title>
+    <title>CineCyber - 100 Ultimate Masterpieces</title>
     <style>
         * {
             margin: 0;
@@ -229,7 +229,6 @@
             { id: 8, title: "Gladiator", rating: "8.5", poster: "https://image.tmdb.org/t/p/w500/ty8TGRuvJLPUmAR1H1nRIsgwvim.jpg" },
             { id: 9, title: "Blade Runner 2049", rating: "8.0", poster: "https://image.tmdb.org/t/p/w500/gajva2L0rPYkEWjzgFlBXCAVBE5.jpg" },
             { id: 10, title: "Spider-Man: Into the Spider-Verse", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/iiZZdoQBEYBv6id8su7ImL0oCbD.jpg" },
-            // Nayi 5 working movies add ki gayi hain:
             { id: 11, title: "Avatar", rating: "7.9", poster: "https://image.tmdb.org/t/p/w500/kyeShkV8swvHmiw8rK3bZc3xP4z.jpg" },
             { id: 12, title: "Avengers: Endgame", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/or06FN3Dka5tukK1e9sl16pB3iy.jpg" },
             { id: 13, title: "Joker", rating: "8.4", poster: "https://image.tmdb.org/t/p/w500/udDclJoHjfjb8Ekgsd4FDteOkCU.jpg" },
@@ -253,16 +252,48 @@
             });
         });
 
+        // Google Sheet Integration Link
+        const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbzbffmE_rXta78txzMDw7GLKbaXfeZa0aG08lJw0Ba2CPJKqludcLjucfULCn7DZ5kt/exec';
+
         function submitRating() {
             const feedback = document.getElementById('feedbackText').value;
-            if(selectedRating === 0) {
+            const submitBtn = document.querySelector('.submit-rating-btn');
+
+            if (selectedRating === 0) {
                 alert("Please select at least 1 star before submitting!");
                 return;
             }
-            alert(`Thank you for rating our website ${selectedRating} stars! ❤️\nFeedback: ${feedback ? feedback : "No comment"}`);
-            selectedRating = 0;
-            document.getElementById('feedbackText').value = "";
-            stars.forEach(s => s.classList.remove('selected'));
+
+            submitBtn.disabled = true;
+            submitBtn.innerText = "Submitting...";
+
+            const data = {
+                rating: selectedRating,
+                feedback: feedback
+            };
+
+            fetch(SCRIPT_URL, {
+                method: 'POST',
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify(data)
+            })
+            .then(() => {
+                alert(`Thank you for rating our website ${selectedRating} stars! ❤️`);
+                selectedRating = 0;
+                document.getElementById('feedbackText').value = "";
+                stars.forEach(s => s.classList.remove('selected'));
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Rating";
+            })
+            .catch(error => {
+                console.error('Error!', error);
+                alert("Something went wrong. Please try again.");
+                submitBtn.disabled = false;
+                submitBtn.innerText = "Submit Rating";
+            });
         }
 
         const grid = document.getElementById('movieGrid');
